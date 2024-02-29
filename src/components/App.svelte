@@ -18,7 +18,6 @@
 
     });
 
-</script>
 
 function createBubbleChart() {
     const svg = d3.select("svg");
