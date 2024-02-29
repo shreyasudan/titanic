@@ -11,7 +11,7 @@
 
         const csv = await res.text();
 
-        emissionData = d3.csvParse(csv, d3.autoType)
+        titanicData = d3.csvParse(csv, d3.autoType)
 
         $: console.log(titanicData);
         createBubbleChart();
