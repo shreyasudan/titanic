@@ -15,10 +15,10 @@
   function createBubbleChart() {
     // Declare and initialize these variables at the start
     const svgWidth = 800; // Set SVG width
-    const svgHeight = 600; // Set SVG height
+    const svgHeight = 650; // Set SVG height
 
     // Adjust margins dynamically
-    const margin = { top: 20, right: 30, bottom: 50, left: 50 };
+    const margin = { top: 20, right: 30, bottom: 60, left: 70 };
     const width = svgWidth - margin.left - margin.right;
     const height = svgHeight - margin.top - margin.bottom;
 
@@ -67,7 +67,79 @@
     // Adjusted y-axis with step increments of 500 or 1000
     svg.append("g")
       .call(d3.axisLeft(yScale).tickValues(d3.range(0, d3.max(titanicData, d => d.Fare * 31.80), 1000))); // Adjusted tick values
+
+    svg.append("text")
+    .attr("class", "axis-label")
+    .attr("x", width / 2)
+    .attr("y", height + margin.top + 20) // Adjust position below the x-axis
+    .style("text-anchor", "middle")
+    .text("Age");
+
+  // Y-axis label
+  svg.append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", -margin.left + 15) // Adjust position to the left of the y-axis
+    .style("text-anchor", "middle")
+    .text("Fare");
+
+  const legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", `translate(${width + margin.right-125},${margin.top})`);
+
+  const legendColors = ["#355C7D", "#F7DB4F"];
+  const legendLabels = ["Survived", "Did not survive"];
+
+  legend.selectAll(".legend-item")
+    .data(legendColors)
+    .enter().append("g")
+    .attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+  legend.selectAll(".legend-item")
+    .append("circle")
+    .attr("cx", 0)
+    .attr("cy", 0)
+    .attr("r", 6)
+    .style("fill", d => d);
+
+  legend.selectAll(".legend-item")
+    .append("text")
+    .attr("x", 10)
+    .attr("y", 5)
+    .text((d, i) => legendLabels[i]);
+
+  legend.selectAll(".legend-item")
+    .on("mouseover", function(event, d) {
+      // Reduce opacity of non-hovered circles
+      svg.selectAll(".point")
+        .attr("fill-opacity", data => colorScale(data.Survived) === d ? 0.8 : 0)
+        .attr("stroke-opacity", data => colorScale(data.Survived) === d ? 1 : 0);
+    })
+    .on("mouseout", function() {
+      // Reset opacity of circles
+      svg.selectAll(".point")
+        .attr("fill-opacity", 0.8)
+        .attr("stroke-opacity", 1);
+    });
+  
+  svg.append("text")
+        .attr("x", width - margin.right - 25)
+        .attr("y", margin.top + 80) // Position above the legend
+        .attr("text-anchor", "end")
+        .style("font-size", "17px")
+        .style("font-weight", "bold")
+        .text("Hover over legend to change visualization");
+
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", margin.top / 2) // Position at the top, centered
+    .attr("text-anchor", "middle")
+    .style("font-size", "20px")
+    .style("font-weight", "bold")
+    .text("Titanic Dataset Visualization");
   }
 </script>
 
-<svg></svg>
+<svg style="display:block;margin:auto;"></svg>
