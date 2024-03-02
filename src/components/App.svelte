@@ -206,7 +206,7 @@
 their odds against one of the most sensationalized tradegies: Titanic. We have created an interactive 
 visualization that allows for Exploratory Data Analysis at the hands of the user. Some notable encodings
 in our visualization include an interactive legend, allowing our users to look at the difference in 
-distributions of the survivors and the victims of this unforseen c\alamity. We applied a data transformation to
+distributions of the survivors and the victims of this unforseen calamity. We applied a data transformation to
 the "Fare" of the passengers. We wanted to communicate the value of the fare in today's monetary value. Thus,
 we applied the inflation rate of 31.80 that we computed from the <a href="https://data.bls.gov/cgi-bin/cpicalc.pl">Bureau of Labor Statistics</a>.
 Finally, we utilized tooltips to allow information on the data points that is not overtly obvious in the visualization. 
