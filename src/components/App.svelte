@@ -1,3 +1,42 @@
+<head>
+<style>
+  body {
+     //background-color: #cccccc;
+     /* Center aligning the text */
+     text-align: right;
+  }
+  h1 {
+    color: black; /* Changing text color */
+    text-align: center;
+  }
+  h2 {
+    text-align: left;
+    font-size: 15px;
+    font-weight: normal;
+
+  }
+  p {
+    color: black; /* Changing text color */
+    font-size: 20px;
+    text-align: center;
+  }
+
+  h3 {
+    text-align: left;
+  }
+  h4 {
+    text-align: left;
+  }
+
+
+</style>
+</head>
+
+<body>
+<h1>The Titanic Challenge: Do You Have What It Takes to Survive?</h1>
+<h2></h2>
+</body>
+
 <script>
   import * as d3 from 'd3';
   import { onMount } from 'svelte';
@@ -43,11 +82,11 @@
       .domain([0, 1])
       .range(["#355C7D", "#F7DB4F"]);
 
-  
+    const filteredData = titanicData.filter(d => d.Age !== null)
 
     // Add circles
-    svg.selectAll(".point")
-      .data(titanicData)
+    const circles = svg.selectAll(".point")
+      .data(filteredData)
       .enter().append("circle")
       .attr("class", "point")
       .attr("cx", d => xScale(d.Age))
@@ -82,7 +121,7 @@
     .attr("x", -height / 2)
     .attr("y", -margin.left + 15) // Adjust position to the left of the y-axis
     .style("text-anchor", "middle")
-    .text("Fare");
+    .text("Fare ($)");
 
   const legend = svg.append("g")
     .attr("class", "legend")
@@ -138,8 +177,55 @@
     .attr("text-anchor", "middle")
     .style("font-size", "20px")
     .style("font-weight", "bold")
-    .text("Titanic Dataset Visualization");
+    .text("Unveiling Titanic: Age, Fare, and Survival Insights");
+
+  const tooltip = d3.select("h2").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  svg.selectAll("circle")
+      .on("mouseover", function(event, d) {
+          tooltip.transition()
+              .duration(200)
+              .style("opacity", .9);
+          tooltip.html(`Passenger Age: ${d.Age}<br>Passenger Fare: ${d["Fare"]}<br>Gender: ${d.Sex}`)
+              .style("left", (event.pageX) + "px")
+              .style("top", (event.pageY) + "px");
+      })
+      .on("mouseout", function(d) {
+          tooltip.transition()
+              .duration(500)
+              .style("opacity", 0);
+      });
   }
+
+  
 </script>
 
 <svg style="display:block;margin:auto;"></svg>
+
+<body>
+<h3 style="text-align: center; font-size: 24px;">Write-Up</h3>
+
+<p> Our objective with this project is to create a unique user experience that plays with 
+their odds against one of the most sensationalized tradegies: Titanic. We have created an interactive 
+visualization that allows for Exploratory Data Analysis at the hands of the user. Some notable encodings
+in our visualization include an interactive legend, allowing our users to look at the difference in 
+distributions of the survivors and the victims of this unforseen calamity. We applied a data transformation to
+the "Fare" of the passengers. We wanted to communicate the value of the fare in today's monetary value. Thus,
+we applied the inflation rate of 31.80 that we computed from the <a href="https://data.bls.gov/cgi-bin/cpicalc.pl">Bureau of Labor Statistics</a>.
+Finally, we utilized tooltips to allow information on the data points that is not overtly obvious in the visualization. 
+For instance, the tooltips discloses the 'Sex' of the passanger to allow the user to conclude that most survivors of the Titanic
+were actually female.
+</p>
+
+<p> Our endgame for this project, however, is much more ambitious. After performing some preliminary EDA,
+we observed that much of our data points seemed like a constant with a few outliers. We would like to log-scale the 'Fare'
+to manage these outliers in order to highlight the true relationship between 'Age' and 'Fare'. Moreover, we plan to add 
+another exploratory visualization to highlight the relationship between the variables 'Sex', 'Number of Dependents',
+and 'Survival'. Next we'd like to create a somewhat of a Classification model that allows the user to enter information and see
+their odds for survival. We aim to do this by applying a "Nearest Neighbor Classifier" that zooms to the bubble with
+their stats. Presenltly, we are also considerening a "Bayes Classifier" that attempts to provide them with a quantifiable 
+float values as their 'Survival Odds' 
+</p>
+</body>
