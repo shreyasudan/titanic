@@ -4,6 +4,7 @@
      //background-color: #cccccc;
      /* Center aligning the text */
      text-align: right;
+     padding: 5px;
   }
   h1 {
     color: black; /* Changing text color */
