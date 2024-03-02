@@ -4,16 +4,14 @@
      //background-color: #cccccc;
      /* Center aligning the text */
      text-align: right;
-     padding: 5px;
   }
   h1 {
     color: black; /* Changing text color */
     text-align: center;
   }
   h2 {
-    text-align: left;
-    font-size: 15px;
-    font-weight: normal;
+    text-align: center;
+    font-size: 20px;
 
   }
   p {
@@ -24,6 +22,8 @@
 
   h3 {
     text-align: left;
+    font-size: 15px;
+    font-weight: normal;
   }
   h4 {
     text-align: left;
@@ -35,7 +35,8 @@
 
 <body>
 <h1>The Titanic Challenge: Do You Have What It Takes to Survive?</h1>
-<h2></h2>
+<h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
+<h3></h3>
 </body>
 
 <script>
@@ -172,15 +173,8 @@
         .style("font-weight", "bold")
         .text("Hover over legend to change visualization");
 
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", margin.top / 2) // Position at the top, centered
-    .attr("text-anchor", "middle")
-    .style("font-size", "20px")
-    .style("font-weight", "bold")
-    .text("Unveiling Titanic: Age, Fare, and Survival Insights");
 
-  const tooltip = d3.select("h2").append("div")
+  const tooltip = d3.select("h3").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -206,13 +200,13 @@
 <svg style="display:block;margin:auto;"></svg>
 
 <body>
-<h3 style="text-align: center; font-size: 24px;">Write-Up</h3>
+<h4 style="text-align: center; font-size: 24px;">Write-Up</h4>
 
 <p> Our objective with this project is to create a unique user experience that plays with 
 their odds against one of the most sensationalized tradegies: Titanic. We have created an interactive 
 visualization that allows for Exploratory Data Analysis at the hands of the user. Some notable encodings
 in our visualization include an interactive legend, allowing our users to look at the difference in 
-distributions of the survivors and the victims of this unforseen calamity. We applied a data transformation to
+distributions of the survivors and the victims of this unforseen c\alamity. We applied a data transformation to
 the "Fare" of the passengers. We wanted to communicate the value of the fare in today's monetary value. Thus,
 we applied the inflation rate of 31.80 that we computed from the <a href="https://data.bls.gov/cgi-bin/cpicalc.pl">Bureau of Labor Statistics</a>.
 Finally, we utilized tooltips to allow information on the data points that is not overtly obvious in the visualization. 
