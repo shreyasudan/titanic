@@ -28,6 +28,17 @@
   h4 {
     text-align: left;
   }
+  h5 {
+    text-align: center;
+    font-size: 20px;
+  }
+  h6 {
+    text-align: center;
+    font-size: 17px;
+    font-weight: normal;
+
+  }
+
 
 
 </style>
@@ -51,6 +62,7 @@
     titanicData = d3.csvParse(csv, d3.autoType);
     console.log(titanicData);
     createBubbleChart(); // Ensure this is called after data is loaded
+    createSurvivalHistogram();
   });
 
   function createBubbleChart() {
@@ -194,6 +206,101 @@
       });
   }
 
+function createSurvivalHistogram() {
+    const svgWidth = 800; // Set SVG width
+    const svgHeight = 650; // Set SVG height
+
+    // Adjust margins dynamically
+    const margin = { top: 20, right: 30, bottom: 60, left: 50 };
+    const width = svgWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
+
+    var svg = d3.select("h6")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// X axis: scale and draw
+var x = d3.scaleLinear()
+            .domain([0, d3.max(titanicData, d => d.Age)])
+            .range([0, width]);
+svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+// Set up histogram function
+var histogram = d3.histogram()
+    .value(d => d.Age)
+    .domain(x.domain())
+    .thresholds(x.ticks(45));
+
+// Apply histogram function to data to get the bins for 'Survived' = 1
+var bins1 = histogram(titanicData.filter(d => d.Survived === 1));
+
+// Apply histogram function to data to get the bins for 'Survived' = 0
+var bins0 = histogram(titanicData.filter(d => d.Survived === 0));
+
+
+const total1 = bins1.length > 0 ? bins1.map(bin => bin.length).reduce((a, b) => a + b) : 1;
+const total0 = bins0.length > 0 ? bins0.map(bin => bin.length).reduce((a, b) => a + b) : 1;
+bins1.forEach(bin => { bin.proportion = bin.length / total1; });
+bins0.forEach(bin => { bin.proportion = bin.length / total0; });
+
+// Y axis: scale and draw
+var y = d3.scaleLinear()
+            .range([height, 0])
+            .domain([0, 0.1]); // Set the domain to [0, 1]
+svg.append("g")
+    .call(d3.axisLeft(y).ticks(10)); // Format ticks as percentages
+
+// Append the bars for 'Survived' = 1
+svg.selectAll(".bar1")
+    .data(bins1)
+    .enter()
+    .append("rect")
+    .attr("class", "bar1")
+    .attr("x", d => x(d.x0))
+    .attr("y", d => y(d.proportion)) // Use proportion instead of length
+    .attr("width", d => x(d.x1) - x(d.x0) - 1)
+    .attr("height", d => height - y(d.proportion))
+    .style("fill", "#69b3a2")
+    .style("opacity", 0.6);
+
+// Append the bars for 'Survived' = 0
+svg.selectAll(".bar0")
+    .data(bins0)
+    .enter()
+    .append("rect")
+    .attr("class", "bar0")
+    .attr("x", d => x(d.x0))
+    .attr("y", d => y(d.proportion)) // Use proportion instead of length
+    .attr("width", d => x(d.x1) - x(d.x0) - 1)
+    .attr("height", d => height - y(d.proportion))
+    .style("fill", "#404080")
+    .style("opacity", 0.6);
+
+  
+svg.append("text")
+    .attr("class", "axis-label")
+    .attr("x", width / 2)
+    .attr("y", height + margin.top + 20) // Adjust position below the x-axis
+    .style("text-anchor", "middle")
+    .text("Age");
+
+  // Y-axis label
+  svg.append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", -margin.left + 11.25) // Adjust position to the left of the y-axis
+    .style("text-anchor", "middle")
+    .text("Density");
+
+}
+
+
   
 </script>
 
@@ -223,4 +330,7 @@ their odds for survival. We aim to do this by applying a "Nearest Neighbor Class
 their stats. Presenltly, we are also considerening a "Bayes Classifier" that attempts to provide them with a quantifiable 
 float values as their 'Survival Odds' 
 </p>
+
+<h5> Feature Engineering </h5>
+<h6></h6>
 </body>
