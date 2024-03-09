@@ -51,12 +51,36 @@ Step back in time to April 1912, a momentous period marked by the inaugural voya
 a marvel of engineering and opulence touted as "unsinkable." As we embark on our journey through the annals of history, 
 we delve into the heart of one of the most infamous maritime disasters ever to unfold—the sinking of the Titanic. 
 Through the lens of the Titanic Olympics, we pose a daring question: 
-Would you have what it takes to survive the treacherous waters of the North Atlantic aboard this legendary vessel?
 </p>
 
-<p> 
+<p> Would you have what it takes to survive the treacherous waters of the North Atlantic aboard this legendary vessel? </p>
 
+<p>
+The visualization below explores the relationship between passenger age, fare paid, and survival aboard the Titanic, 
+shedding light on the dynamics of this historic tragedy.
+</p> 
+
+<p>
+The visualization illustrates a scatter plot where each circle represents a passenger. 
+The x-axis denotes passenger age, while the y-axis reflects the fare paid. 
+Circles are color-coded based on survival status—blue for survived and yellow for those who did not. 
+Hovering over each circle reveals additional details, including passenger age, fare paid, and gender.
 </p>
+
+<p>
+A closer examination reveals a stark reality: amidst the luxury and grandeur of the Titanic, survival was not guaranteed for all. 
+Despite paying varying fares and spanning different age groups, many passengers tragically perished in the icy waters of the North Atlantic.
+Although some might believe that age would play a huge factor in survival, as the procedure allowed women and children to evacuate first, 
+the visualization clearly displays how most survivors were actually between the ages of 20 to 60.
+</p>
+
+<p>
+This visualization serves as a poignant reminder of the unpredictability of life and the harrowing choices faced by Titanic passengers. 
+It prompts reflection on the factors that influenced survival—perhaps age, fare class, or sheer luck—and ignites curiosity 
+about the individual stories hidden within the data. As we delve deeper into the Titanic's narrative, 
+we embark on a quest to uncover the untold tales of courage, sacrifice, and resilience that define this enduring maritime disaster.
+</p>
+
 <h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
 <h3></h3>
 </body>
