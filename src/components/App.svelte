@@ -30,7 +30,7 @@
   }
   h5 {
     text-align: center;
-    font-size: 20px;
+    font-size: 17px;
   }
   h6 {
     text-align: center;
@@ -65,20 +65,6 @@ The visualization illustrates a scatter plot where each circle represents a pass
 The x-axis denotes passenger age, while the y-axis reflects the fare paid. 
 Circles are color-coded based on survival status—blue for survived and yellow for those who did not. 
 Hovering over each circle reveals additional details, including passenger age, fare paid, and gender.
-</p>
-
-<p>
-A closer examination reveals a stark reality: amidst the luxury and grandeur of the Titanic, survival was not guaranteed for all. 
-Despite paying varying fares and spanning different age groups, many passengers tragically perished in the icy waters of the North Atlantic.
-Although some might believe that age would play a huge factor in survival, as the procedure allowed women and children to evacuate first, 
-the visualization clearly displays how most survivors were actually between the ages of 20 to 60.
-</p>
-
-<p>
-This visualization serves as a poignant reminder of the unpredictability of life and the harrowing choices faced by Titanic passengers. 
-It prompts reflection on the factors that influenced survival—perhaps age, fare class, or sheer luck—and ignites curiosity 
-about the individual stories hidden within the data. As we delve deeper into the Titanic's narrative, 
-we embark on a quest to uncover the untold tales of courage, sacrifice, and resilience that define this enduring maritime disaster.
 </p>
 
 <h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
@@ -250,7 +236,7 @@ function createSurvivalHistogram() {
     const width = svgWidth - margin.left - margin.right;
     const height = svgHeight - margin.top - margin.bottom;
 
-    var svg = d3.select("h6")
+    var svg = d3.select("h5")
             .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -342,30 +328,24 @@ svg.append("text")
 <svg style="display:block;margin:auto;"></svg>
 
 <body>
-<h4 style="text-align: center; font-size: 24px;">Write-Up</h4>
-
-<p> Our objective with this project is to create a unique user experience that plays with 
-their odds against one of the most sensationalized tradegies: Titanic. We have created an interactive 
-visualization that allows for Exploratory Data Analysis at the hands of the user. Some notable encodings
-in our visualization include an interactive legend, allowing our users to look at the difference in 
-distributions of the survivors and the victims of this unforseen calamity. We applied a data transformation to
-the "Fare" of the passengers. We wanted to communicate the value of the fare in today's monetary value. Thus,
-we applied the inflation rate of 31.80 that we computed from the <a href="https://data.bls.gov/cgi-bin/cpicalc.pl">Bureau of Labor Statistics</a>.
-Finally, we utilized tooltips to allow information on the data points that is not overtly obvious in the visualization. 
-For instance, the tooltips discloses the 'Sex' of the passanger to allow the user to conclude that most survivors of the Titanic
-were actually female.
+<p>
+A closer examination reveals a stark reality: amidst the luxury and grandeur of the Titanic, survival was not guaranteed for all. 
+Despite paying varying fares and spanning different age groups, many passengers tragically perished in the icy waters of the North Atlantic.
+Although some might believe that age would play a huge factor in survival, as the procedure allowed women and children to evacuate first, 
+the visualization clearly displays how most survivors were actually between the ages of 20 to 60.
 </p>
 
-<p> Our endgame for this project, however, is much more ambitious. After performing some preliminary EDA,
-we observed that much of our data points seemed like a constant with a few outliers. We would like to log-scale the 'Fare'
-to manage these outliers in order to highlight the true relationship between 'Age' and 'Fare'. Moreover, we plan to add 
-another exploratory visualization to highlight the relationship between the variables 'Sex', 'Number of Dependents',
-and 'Survival'. Next we'd like to create a somewhat of a Classification model that allows the user to enter information and see
-their odds for survival. We aim to do this by applying a "Nearest Neighbor Classifier" that zooms to the bubble with
-their stats. Presenltly, we are also considerening a "Bayes Classifier" that attempts to provide them with a quantifiable 
-float values as their 'Survival Odds' 
+<p>
+This visualization serves as a poignant reminder of the unpredictability of life and the harrowing choices faced by Titanic passengers. 
+It prompts reflection on the factors that influenced survival—perhaps age, fare class, or sheer luck—and ignites curiosity 
+about the individual stories hidden within the data. As we delve deeper into the Titanic's narrative, 
+we embark on a quest to uncover the untold tales of courage, sacrifice, and resilience that define this enduring maritime disaster.
 </p>
 
-<h5> Feature Engineering </h5>
+<h4 style="text-align: center; font-size: 20px;">Feature Engineering</h4>
+
+
+
+<h5></h5>
 <h6></h6>
 </body>
