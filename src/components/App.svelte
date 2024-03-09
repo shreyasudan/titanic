@@ -46,6 +46,17 @@
 
 <body>
 <h1>The Titanic Challenge: Do You Have What It Takes to Survive?</h1>
+<p> 
+Step back in time to April 1912, a momentous period marked by the inaugural voyage of the RMS Titanic,
+a marvel of engineering and opulence touted as "unsinkable." As we embark on our journey through the annals of history, 
+we delve into the heart of one of the most infamous maritime disasters ever to unfold—the sinking of the Titanic. 
+Through the lens of the Titanic Olympics, we pose a daring question: 
+Would you have what it takes to survive the treacherous waters of the North Atlantic aboard this legendary vessel?
+</p>
+
+<p> 
+
+</p>
 <h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
 <h3></h3>
 </body>
