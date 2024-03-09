@@ -342,10 +342,40 @@ about the individual stories hidden within the data. As we delve deeper into the
 we embark on a quest to uncover the untold tales of courage, sacrifice, and resilience that define this enduring maritime disaster.
 </p>
 
+<p> Hmmm... this scatter plot looks almost bell-shaped. I wonder... </p>
+
 <h4 style="text-align: center; font-size: 20px;">Feature Engineering</h4>
-
-
-
 <h5></h5>
+
+<p> 
+In our quest to understand the dynamics of survival aboard the Titanic, 
+we delve into the age distribution of passengers through a pair of histograms. 
+These visualizations illuminate the relationship between age and survival, 
+providing key insights into the tragic events of that fateful night.
+</p>
+
+<p>
+The histograms depict the age distribution of passengers who survived (in teal) and those who did not (in navy blue). 
+Each bar represents a range of ages, while the height of the bars signifies the density of passengers within that age range. 
+Notably, the histograms reveal distinct patterns in the age distribution of survivors and non-survivors, 
+hinting at potential underlying factors influencing survival rates.
+</p>
+
+<p> 
+A closer examination uncovers nuances within the age distributions of survivors and non-survivors. 
+While both histograms exhibit peaks and troughs indicative of Gaussian-like distributions, 
+subtle differences emerge in the shape and spread of the curves. 
+These disparities underscore the complex interplay between age, survival, and other variables yet to be explored.
+</p>
+
+<p>
+As we unravel the mysteries hidden within these histograms, 
+we embark on a journey to train predictive models that harness the power of Gaussian distributions.
+By leveraging insights gleaned from the histograms, we aim to develop robust algorithms 
+capable of forecasting survival outcomes based on passenger characteristics. Through this innovative approach, 
+we seek to honor the memory of those lost aboard the Titanic by shedding light on the factors that determined their fate.
+</p>
+
+
 <h6></h6>
 </body>
