@@ -269,7 +269,7 @@ function createSurvivalHistogram(titanicData) {
 
   // X axis: scale and draw
   var x = d3.scaleLinear()
-              .domain([0, d3.max(titanicData, d => d.Age)])
+              .domain([0, 80])
               .range([0, width]);
   svg.append("g")
       .attr("transform", "translate(0," + height + ")")
