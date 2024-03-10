@@ -68,6 +68,7 @@ Hovering over each circle reveals additional details, including passenger age, f
 </p>
 
 <h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
+
 <h3></h3>
 </body>
 
@@ -83,7 +84,30 @@ Hovering over each circle reveals additional details, including passenger age, f
     titanicData = d3.csvParse(csv, d3.autoType);
     console.log(titanicData);
     createBubbleChart(); // Ensure this is called after data is loaded
-    createSurvivalHistogram();
+    createSurvivalHistogram(titanicData);
+    
+    document.getElementById('maleButton').addEventListener('click', () => filterData('male'));
+    document.getElementById('femaleButton').addEventListener('click', () => filterData('female'));
+    document.getElementById('bothButton').addEventListener('click', () => filterData('both'));
+
+    function filterData(sex) {
+      let filteredData;
+      if (sex === 'male') {
+        // Filter data for male passengers
+        filteredData = titanicData.filter(d => d.Sex === 'male');
+      } else if (sex === 'female') {
+        // Filter data for female passengers
+        filteredData = titanicData.filter(d => d.Sex === 'female');
+      } else {
+        // Use the original data (both male and female passengers)
+        filteredData = titanicData;
+      }
+
+      // Update the histogram
+      d3.select("h5").selectAll("svg").remove();
+      createSurvivalHistogram(filteredData);
+    }
+
   });
 
   function createBubbleChart() {
@@ -227,97 +251,118 @@ Hovering over each circle reveals additional details, including passenger age, f
       });
   }
 
-function createSurvivalHistogram() {
-    const svgWidth = 800; // Set SVG width
-    const svgHeight = 650; // Set SVG height
+function createSurvivalHistogram(titanicData) {
+  const svgWidth = 800; // Set SVG width
+  const svgHeight = 650; // Set SVG height
 
-    // Adjust margins dynamically
-    const margin = { top: 20, right: 30, bottom: 60, left: 50 };
-    const width = svgWidth - margin.left - margin.right;
-    const height = svgHeight - margin.top - margin.bottom;
+  // Adjust margins dynamically
+  const margin = { top: 20, right: 30, bottom: 60, left: 50 };
+  const width = svgWidth - margin.left - margin.right;
+  const height = svgHeight - margin.top - margin.bottom;
 
-    var svg = d3.select("h5")
+  var svg = d3.select("h5")
             .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// X axis: scale and draw
-var x = d3.scaleLinear()
-            .domain([0, d3.max(titanicData, d => d.Age)])
-            .range([0, width]);
-svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+  // X axis: scale and draw
+  var x = d3.scaleLinear()
+              .domain([0, d3.max(titanicData, d => d.Age)])
+              .range([0, width]);
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
 
-// Set up histogram function
-var histogram = d3.histogram()
-    .value(d => d.Age)
-    .domain(x.domain())
-    .thresholds(x.ticks(45));
+  // Set up histogram function
+  var histogram = d3.histogram()
+      .value(d => d.Age)
+      .domain(x.domain())
+      .thresholds(x.ticks(45));
 
-// Apply histogram function to data to get the bins for 'Survived' = 1
-var bins1 = histogram(titanicData.filter(d => d.Survived === 1));
+  // Apply histogram function to data to get the bins for 'Survived' = 1
+  var bins1 = histogram(titanicData.filter(d => d.Survived === 1));
 
-// Apply histogram function to data to get the bins for 'Survived' = 0
-var bins0 = histogram(titanicData.filter(d => d.Survived === 0));
+  // Apply histogram function to data to get the bins for 'Survived' = 0
+  var bins0 = histogram(titanicData.filter(d => d.Survived === 0));
 
 
-const total1 = bins1.length > 0 ? bins1.map(bin => bin.length).reduce((a, b) => a + b) : 1;
-const total0 = bins0.length > 0 ? bins0.map(bin => bin.length).reduce((a, b) => a + b) : 1;
-bins1.forEach(bin => { bin.proportion = bin.length / total1; });
-bins0.forEach(bin => { bin.proportion = bin.length / total0; });
+  const total1 = bins1.length > 0 ? bins1.map(bin => bin.length).reduce((a, b) => a + b) : 1;
+  const total0 = bins0.length > 0 ? bins0.map(bin => bin.length).reduce((a, b) => a + b) : 1;
+  bins1.forEach(bin => { bin.proportion = bin.length / total1; });
+  bins0.forEach(bin => { bin.proportion = bin.length / total0; });
 
-// Y axis: scale and draw
-var y = d3.scaleLinear()
-            .range([height, 0])
-            .domain([0, 0.1]); // Set the domain to [0, 1]
-svg.append("g")
-    .call(d3.axisLeft(y).ticks(10)); // Format ticks as percentages
+  // Y axis: scale and draw
+  var y = d3.scaleLinear()
+              .range([height, 0])
+              .domain([0, 0.1]); // Set the domain to [0, 1]
+  svg.append("g")
+      .call(d3.axisLeft(y).ticks(10)); // Format ticks as percentages
 
-// Append the bars for 'Survived' = 1
-svg.selectAll(".bar1")
-    .data(bins1)
-    .enter()
-    .append("rect")
-    .attr("class", "bar1")
-    .attr("x", d => x(d.x0))
-    .attr("y", d => y(d.proportion)) // Use proportion instead of length
-    .attr("width", d => x(d.x1) - x(d.x0) - 1)
-    .attr("height", d => height - y(d.proportion))
-    .style("fill", "#69b3a2")
-    .style("opacity", 0.6);
+  // Append the bars for 'Survived' = 1
+  svg.selectAll(".bar1")
+      .data(bins1)
+      .enter()
+      .append("rect")
+      .attr("class", "bar1")
+      .attr("x", d => x(d.x0))
+      .attr("y", d => y(d.proportion)) // Use proportion instead of length
+      .attr("width", d => x(d.x1) - x(d.x0) - 1)
+      .attr("height", d => height - y(d.proportion))
+      .style("fill", "#69b3a2")
+      .style("opacity", 0.6);
 
-// Append the bars for 'Survived' = 0
-svg.selectAll(".bar0")
-    .data(bins0)
-    .enter()
-    .append("rect")
-    .attr("class", "bar0")
-    .attr("x", d => x(d.x0))
-    .attr("y", d => y(d.proportion)) // Use proportion instead of length
-    .attr("width", d => x(d.x1) - x(d.x0) - 1)
-    .attr("height", d => height - y(d.proportion))
-    .style("fill", "#404080")
-    .style("opacity", 0.6);
+  // Append the bars for 'Survived' = 0
+  svg.selectAll(".bar0")
+      .data(bins0)
+      .enter()
+      .append("rect")
+      .attr("class", "bar0")
+      .attr("x", d => x(d.x0))
+      .attr("y", d => y(d.proportion)) // Use proportion instead of length
+      .attr("width", d => x(d.x1) - x(d.x0) - 1)
+      .attr("height", d => height - y(d.proportion))
+      .style("fill", "#404080")
+      .style("opacity", 0.6);
 
-  
-svg.append("text")
-    .attr("class", "axis-label")
-    .attr("x", width / 2)
-    .attr("y", height + margin.top + 20) // Adjust position below the x-axis
-    .style("text-anchor", "middle")
-    .text("Age");
+  var legend = svg.selectAll(".legend")
+      .data(["Survived", "Did not survive"])
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-  // Y-axis label
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", function(d, i) { return i === 0 ? "#69b3a2" : "#404080"; });
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+    
   svg.append("text")
-    .attr("class", "axis-label")
-    .attr("transform", "rotate(-90)")
-    .attr("x", -height / 2)
-    .attr("y", -margin.left + 11.25) // Adjust position to the left of the y-axis
-    .style("text-anchor", "middle")
-    .text("Density");
+      .attr("class", "axis-label")
+      .attr("x", width / 2)
+      .attr("y", height + margin.top + 20) // Adjust position below the x-axis
+      .style("text-anchor", "middle")
+      .text("Age");
+
+    // Y-axis label
+    svg.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -margin.left + 11.25) // Adjust position to the left of the y-axis
+      .style("text-anchor", "middle")
+      .text("Density");
+
+
+
 
 }
 
@@ -343,6 +388,12 @@ we embark on a quest to uncover the untold tales of courage, sacrifice, and resi
 </p>
 
 <p> Hmmm... this scatter plot looks almost bell-shaped. I wonder... </p>
+
+<div style="text-align: center;">
+  <button id="maleButton">Male</button>
+  <button id="femaleButton">Female</button>
+  <button id="bothButton">Both</button>
+</div>
 
 <h4 style="text-align: center; font-size: 20px;">Feature Engineering</h4>
 <h5></h5>
