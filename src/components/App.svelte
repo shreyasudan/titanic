@@ -106,6 +106,21 @@ Hovering over each circle reveals additional details, including passenger age, f
       // Update the histogram
       d3.select("h5").selectAll("svg").remove();
       createSurvivalHistogram(filteredData);
+
+      document.getElementById('predictionForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get user input values
+      const sex = document.getElementById('sex').value;
+      const embarked = document.getElementById('embarked').value;
+      const pclass = document.getElementById('pclass').value;
+
+      // Call the classifier function to predict survival
+      const prediction = predictClass({ Sex: sex, Embarked: embarked, Pclass: pclass });
+
+      // Update visualization based on the prediction
+      updateVisualization(prediction);
+    });
     }
 
   });
@@ -361,13 +376,78 @@ function createSurvivalHistogram(titanicData) {
       .style("text-anchor", "middle")
       .text("Density");
 
-
-
-
 }
 
+function classifier() {
+  // Filter data for survived and not survived passengers
+  const survivedData = titanicData.filter(d => d.Survived === 1);
+  const notSurvivedData = titanicData.filter(d => d.Survived === 0);
 
-  
+  // Calculate prior probabilities
+  const totalPassengers = titanicData.length;
+  const priorSurvived = survivedData.length / totalPassengers;
+  const priorNotSurvived = notSurvivedData.length / totalPassengers;
+
+  // Calculate likelihoods for 'Sex', 'Embarked', and 'Pclass' features given each class
+  const likelihoods = {
+    survived: {
+      sex: {
+        
+      },
+      embarked: {},
+      pclass: {}
+    },
+    notSurvived: {
+      sex: {},
+      embarked: {},
+      pclass: {}
+    }
+  };
+
+  ['Sex', 'Embarked', 'Pclass'].forEach(feature => {
+    // Calculate likelihoods for each category of the feature
+    const categories = Array.from(new Set(titanicData.map(d => d[feature])));
+    categories.forEach(category => {
+      likelihoods.survived[feature][category] = survivedData.filter(d => d[feature] === category).length / survivedData.length;
+      likelihoods.notSurvived[feature][category] = notSurvivedData.filter(d => d[feature] === category).length / notSurvivedData.length;
+    });
+  });
+
+  // Implement function to predict class based on feature values
+  function predictClass({ Sex, Embarked, Pclass }) {
+    const likelihoodSurvived = priorSurvived * likelihoods.survived.sex[Sex] * likelihoods.survived.embarked[Embarked] * likelihoods.survived.pclass[Pclass];
+    const likelihoodNotSurvived = priorNotSurvived * likelihoods.notSurvived.sex[Sex] * likelihoods.notSurvived.embarked[Embarked] * likelihoods.notSurvived.pclass[Pclass];
+    return likelihoodSurvived > likelihoodNotSurvived ? 1 : 0;
+  }
+
+  // Test the classifier function with some example feature values
+  const prediction = predictClass({ Sex: 'male', Embarked: 'S', Pclass: 3 });
+  console.log('Predicted class:', prediction);
+}
+
+classifier(); // Call the classifier function
+function updateVisualization(prediction) {
+      const visualization = document.getElementById('visualization');
+
+      // Clear previous visualization
+      visualization.innerHTML = '';
+
+      if (prediction === 0) {
+        // Display iceberg with survival odds
+        const iceberg = document.createElement('div');
+        iceberg.textContent = 'Iceberg - Low Survival Odds';
+        iceberg.classList.add('iceberg');
+        visualization.appendChild(iceberg);
+      } else {
+        // Display lifeboat with survival odds
+        const lifeboat = document.createElement('div');
+        lifeboat.textContent = 'Lifeboat - High Survival Odds';
+        lifeboat.classList.add('lifeboat');
+        visualization.appendChild(lifeboat);
+      }
+    }
+
+
 </script>
 
 <svg style="display:block;margin:auto;"></svg>
@@ -429,4 +509,27 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 
 
 <h6></h6>
+  <form id="predictionForm">
+    <label for="sex">Sex:</label>
+    <select id="sex" name="sex">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select><br>
+
+    <label for="embarked">Embarked:</label>
+    <select id="embarked" name="embarked">
+      <option value="S">Southampton</option>
+      <option value="C">Cherbourg</option>
+      <option value="Q">Queenstown</option>
+    </select><br>
+
+    <label for="pclass">Passenger Class:</label>
+    <select id="pclass" name="pclass">
+      <option value="1">First Class</option>
+      <option value="2">Second Class</option>
+      <option value="3">Third Class</option>
+    </select><br>
+
+    <button type="submit">Predict Survival</button>
+  </form>
 </body>
