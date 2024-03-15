@@ -111,7 +111,6 @@ Hovering over each circle reveals additional details, including passenger age, f
     
 
     document.getElementById('predictionForm').addEventListener('submit', function(event) {
-      console.log('Form submitted');
       event.preventDefault(); // Prevent form submission
 
       // Get user input values
