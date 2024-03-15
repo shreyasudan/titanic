@@ -35,9 +35,9 @@
   h6 {
     text-align: center;
     font-size: 17px;
-    font-weight: normal;
-
+    font-weight: strong;
   }
+
 
 
 
@@ -45,7 +45,7 @@
 </head>
 
 <body>
-<h1>The Titanic Challenge: Do You Have What It Takes to Survive?</h1>
+<h1>The Curse of the Titanic</h1>
 <p> 
 Step back in time to April 1912, a momentous period marked by the inaugural voyage of the RMS Titanic,
 a marvel of engineering and opulence touted as "unsinkable." As we embark on our journey through the annals of history, 
@@ -67,7 +67,7 @@ Circles are color-coded based on survival status—blue for survived and yellow 
 Hovering over each circle reveals additional details, including passenger age, fare paid, and gender.
 </p>
 
-<h2>Unveiling Titanic: Age, Fare, and Survival Insights</h2>
+<h2>Titanic Time Machine: Voyage Through Age and Fare</h2>
 
 <h3></h3>
 </body>
@@ -437,12 +437,13 @@ function classifier({ Sex, Embarked, Pclass }) {
 
     //prediction = likelihoodSurvived > likelihoodNotSurvived ? 1 : 0
     if (likelihoodSurvived > likelihoodNotSurvived ) {
+      //return '<img src="lifeboat.jpg" alt="Survived" />';
       return 'Survived'
     }
     else {
+      //return <img src="iceberg.jpg" alt="Did not Survive" />;
       return 'Did not Survive'
     }
-    //return likelihoodSurvived > likelihoodNotSurvived ? 1 : 0;
   }
 
   const likelihood = predictClass({ Sex: Sex, Embarked: Embarked, Pclass: Pclass });
@@ -456,27 +457,6 @@ function classifier({ Sex, Embarked, Pclass }) {
   //console.log('Predicted class:', prediction);
 }
 
-// classifier(); // Call the classifier function
-function updateVisualization(prediction) {
-  const visualization = document.getElementById('visualization');
-
-  // Clear previous visualization
-  visualization.innerHTML = '';
-
-  if (prediction === 0) {
-    // Display iceberg with survival odds
-    const iceberg = document.createElement('div');
-    iceberg.textContent = 'Iceberg - Low Survival Odds';
-    iceberg.classList.add('iceberg');
-    visualization.appendChild(iceberg);
-  } else {
-    // Display lifeboat with survival odds
-    const lifeboat = document.createElement('div');
-    lifeboat.textContent = 'Lifeboat - High Survival Odds';
-    lifeboat.classList.add('lifeboat');
-    visualization.appendChild(lifeboat);
-  }
-}
 
 
 </script>
@@ -506,7 +486,7 @@ we embark on a quest to uncover the untold tales of courage, sacrifice, and resi
   <button id="bothButton">Both</button>
 </div>
 
-<h4 style="text-align: center; font-size: 20px;">Feature Engineering</h4>
+<h4 style="text-align: center; font-size: 20px;">Gender Bender: How Did Sex And Age Win You A Ticket To The Lifeboat? </h4>
 <h5></h5>
 
 <p> 
@@ -539,7 +519,7 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 </p>
 
 
-<h6></h6>
+<h6 style="text-align: center; font-size: 20px;">The Titanic Challenge: Do You Have What It Takes To Survive?</h6>
   <style>
     form {
       text-align: center; /* Center the form */
