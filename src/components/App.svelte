@@ -335,7 +335,7 @@ function createSurvivalHistogram(titanicData) {
       .attr("class", "bar1")
       .attr("x", d => x(d.x0))
       .attr("y", d => y(d.proportion)) // Use proportion instead of length
-      .attr("width", d => x(d.x1) - x(d.x0))
+      .attr("width", d => x(d.x1) - x(d.x0) - 1)
       .attr("height", d => height - y(d.proportion))
       .style("fill", "#69b3a2")
       .style("opacity", 0.6);
@@ -348,7 +348,7 @@ function createSurvivalHistogram(titanicData) {
       .attr("class", "bar0")
       .attr("x", d => x(d.x0))
       .attr("y", d => y(d.proportion)) // Use proportion instead of length
-      .attr("width", d => x(d.x1) - x(d.x0) )
+      .attr("width", d => x(d.x1) - x(d.x0) - 1)
       .attr("height", d => height - y(d.proportion))
       .style("fill", "#404080")
       .style("opacity", 0.6);
