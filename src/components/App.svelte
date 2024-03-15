@@ -540,6 +540,30 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 
 
 <h6></h6>
+  <style>
+    form {
+      text-align: center; /* Center the form */
+      margin-top: 20px; /* Add some top margin for spacing */
+    }
+
+    form label,
+    form select {
+      display: inline-block; /* Display elements in the form on the same line */
+      margin-right: 10px; /* Add some right margin for spacing between elements */
+    }
+
+    form button {
+      display: block; /* Make the button a block element to move it to a new line */
+      margin: 10px auto; /* Center the button horizontally and add some spacing */
+      font-size: 1em; /* Increase the font size */
+      //padding: 8px 16px; 
+    }
+
+    form br {
+      display: none; /* Hide line breaks */
+    }
+  </style>
+
   <form id="predictionForm">
     <label for="sex">Sex:</label>
     <select id="sex" name="sex">
@@ -563,6 +587,19 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 
     <button type="submit">Predict Survival</button>
   </form>
+
+  <style>
+    /* Center the result container */
+    #resultContainer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Make the text inside the result container bigger */
+    #resultContainer {
+      font-size: 1.2em;
+    }
+  </style>
 
   <div id="resultContainer"></div>
 </body>
