@@ -114,21 +114,15 @@ Hovering over each circle reveals additional details, including passenger age, f
       console.log('Form submitted');
       event.preventDefault(); // Prevent form submission
 
-      
-
-
       // Get user input values
       const sex = document.getElementById('sex').value;
       const embarked = document.getElementById('embarked').value;
       const Pclass = parseInt(document.getElementById('Pclass').value);
-      // console.log(Pclass)
-      
+
 
       // Call the classifier function to predict survival
       classifier({ Sex: sex, Embarked: embarked, Pclass: Pclass });
 
-      // Update visualization based on the prediction
-      // updateVisualization(prediction);
     });
     
   
@@ -397,41 +391,26 @@ function classifier({ Sex, Embarked, Pclass }) {
   const totalPassengers = titanicData.length;
   const priorSurvived = survivedData.length / totalPassengers;
   const priorNotSurvived = notSurvivedData.length / totalPassengers;
-  // console.log(survivedData.filter(d => d.Sex === 'female').length / survivedData.length);
-  // console.log(survivedData.filter(d => d.Pclass === Pclass))
-  // console.log(Pclass);
 
 
   // Implement function to predict class based on feature values
   function predictClass({ Sex, Embarked, Pclass }) {
     const likelihoodSurvived = priorSurvived * (survivedData.filter(d => d.Sex === Sex).length / survivedData.length) * (survivedData.filter(d => d.Embarked === Embarked).length / survivedData.length)  * (survivedData.filter(d => d.Pclass === Pclass).length / survivedData.length);
-    // console.log(survivedData.filter(d => d.Sex === Sex).length / survivedData.length);
-    // console.log(survivedData.filter(d => d.Embarked === Embarked).length / survivedData.length);
-    // console.log(survivedData.filter(d => d.Pclass === Pclass).length / survivedData.length)
-    // console.log(priorSurvived);
 
     const likelihoodNotSurvived = priorNotSurvived * (notSurvivedData.filter(d => d.Sex === Sex).length / notSurvivedData.length) * (notSurvivedData.filter(d => d.Embarked === Embarked).length / notSurvivedData.length)  * (notSurvivedData.filter(d => d.Pclass === Pclass).length / notSurvivedData.length);
-    // console.log(likelihoodSurvived);
-    // console.log(likelihoodNotSurvived);
 
-
-    //prediction = likelihoodSurvived > likelihoodNotSurvived ? 1 : 0
     if (likelihoodSurvived > likelihoodNotSurvived ) {
       return '<p>Survived</p><img src="lifeboat.jpg" alt="Survived" style="width: 700px; height: auto;"/>';
-      //return 'Survived'
     }
     else {
       return '<p>Did not Survive</p><img src="iceberg.png" alt="Did not Survive" style="width: 700px; height: auto;"/>';
-      //return 'Did not Survive'
     }
   }
 
   const likelihood = predictClass({ Sex: Sex, Embarked: Embarked, Pclass: Pclass });
 
-  // Update the DOM to display the likelihood value
   const resultContainer = document.getElementById('resultContainer');
   resultContainer.innerHTML = likelihood;
-  //resultContainer.innerText = `Survival Likelihood: ${predictClass({ Sex, Embarked, Pclass })}`;
 
   resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
