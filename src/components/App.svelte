@@ -520,6 +520,17 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 
 
 <h6 style="text-align: center; font-size: 20px;">The Titanic Challenge: Do You Have What It Takes To Survive?</h6>
+<style>
+    .image-container {
+        text-align: center; /* Center the image horizontally */
+        margin-top: 20px; /* Add some top margin for spacing */
+    }
+</style>
+
+<div class="image-container">
+    <img src="titanic.jpg" alt="Survived" />
+</div>
+
   <style>
     form {
       text-align: center; /* Center the form */
