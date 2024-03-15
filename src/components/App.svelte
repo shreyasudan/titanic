@@ -83,12 +83,15 @@ Hovering over each circle reveals additional details, including passenger age, f
     const csv = await res.text();
     titanicData = d3.csvParse(csv, d3.autoType);
     console.log(titanicData);
+    
     createBubbleChart(); // Ensure this is called after data is loaded
     createSurvivalHistogram(titanicData);
+    
     
     document.getElementById('maleButton').addEventListener('click', () => filterData('male'));
     document.getElementById('femaleButton').addEventListener('click', () => filterData('female'));
     document.getElementById('bothButton').addEventListener('click', () => filterData('both'));
+    
 
     function filterData(sex) {
       let filteredData;
@@ -106,22 +109,31 @@ Hovering over each circle reveals additional details, including passenger age, f
       // Update the histogram
       d3.select("h5").selectAll("svg").remove();
       createSurvivalHistogram(filteredData);
+  }
+    
+    
 
-      document.getElementById('predictionForm').addEventListener('submit', function(event) {
+    document.getElementById('predictionForm').addEventListener('submit', function(event) {
+      console.log('Form submitted');
       event.preventDefault(); // Prevent form submission
+
+      
+
 
       // Get user input values
       const sex = document.getElementById('sex').value;
       const embarked = document.getElementById('embarked').value;
       const pclass = document.getElementById('pclass').value;
+      
 
       // Call the classifier function to predict survival
-      const prediction = predictClass({ Sex: sex, Embarked: embarked, Pclass: pclass });
+      classifier({ Sex: sex, Embarked: embarked, Pclass: pclass });
 
       // Update visualization based on the prediction
-      updateVisualization(prediction);
+      // updateVisualization(prediction);
     });
-    }
+    
+  
 
   });
 
@@ -323,7 +335,7 @@ function createSurvivalHistogram(titanicData) {
       .attr("class", "bar1")
       .attr("x", d => x(d.x0))
       .attr("y", d => y(d.proportion)) // Use proportion instead of length
-      .attr("width", d => x(d.x1) - x(d.x0) - 1)
+      .attr("width", d => x(d.x1) - x(d.x0))
       .attr("height", d => height - y(d.proportion))
       .style("fill", "#69b3a2")
       .style("opacity", 0.6);
@@ -336,7 +348,7 @@ function createSurvivalHistogram(titanicData) {
       .attr("class", "bar0")
       .attr("x", d => x(d.x0))
       .attr("y", d => y(d.proportion)) // Use proportion instead of length
-      .attr("width", d => x(d.x1) - x(d.x0) - 1)
+      .attr("width", d => x(d.x1) - x(d.x0) )
       .attr("height", d => height - y(d.proportion))
       .style("fill", "#404080")
       .style("opacity", 0.6);
@@ -378,7 +390,7 @@ function createSurvivalHistogram(titanicData) {
 
 }
 
-function classifier() {
+function classifier({ Sex, Embarked, Pclass }) {
   // Filter data for survived and not survived passengers
   const survivedData = titanicData.filter(d => d.Survived === 1);
   const notSurvivedData = titanicData.filter(d => d.Survived === 0);
@@ -405,6 +417,10 @@ function classifier() {
   };
 
   ['Sex', 'Embarked', 'Pclass'].forEach(feature => {
+
+    likelihoods.survived[feature] = {};
+    likelihoods.notSurvived[feature] = {};
+
     // Calculate likelihoods for each category of the feature
     const categories = Array.from(new Set(titanicData.map(d => d[feature])));
     categories.forEach(category => {
@@ -417,35 +433,50 @@ function classifier() {
   function predictClass({ Sex, Embarked, Pclass }) {
     const likelihoodSurvived = priorSurvived * likelihoods.survived.sex[Sex] * likelihoods.survived.embarked[Embarked] * likelihoods.survived.pclass[Pclass];
     const likelihoodNotSurvived = priorNotSurvived * likelihoods.notSurvived.sex[Sex] * likelihoods.notSurvived.embarked[Embarked] * likelihoods.notSurvived.pclass[Pclass];
-    return likelihoodSurvived > likelihoodNotSurvived ? 1 : 0;
+    //console.log(likelihoodSurvived > likelihoodNotSurvived ? 1 : 0);
+
+    //prediction = likelihoodSurvived > likelihoodNotSurvived ? 1 : 0
+    if (likelihoodSurvived > likelihoodNotSurvived ) {
+      return 'Survived'
+    }
+    else {
+      return 'Did not Survive'
+    }
+    //return likelihoodSurvived > likelihoodNotSurvived ? 1 : 0;
   }
 
+  const likelihood = predictClass({ Sex: Sex, Embarked: Embarked, Pclass: Pclass });
+
+  // Update the DOM to display the likelihood value
+  const resultContainer = document.getElementById('resultContainer');
+  resultContainer.innerText = `Survival Likelihood: ${predictClass({ Sex, Embarked, Pclass })}`;
+
   // Test the classifier function with some example feature values
-  const prediction = predictClass({ Sex: 'male', Embarked: 'S', Pclass: 3 });
-  console.log('Predicted class:', prediction);
+  //const prediction = predictClass({ Sex: 'female', Embarked:'Southampton' , Pclass: 3 });
+  //console.log('Predicted class:', prediction);
 }
 
-classifier(); // Call the classifier function
+// classifier(); // Call the classifier function
 function updateVisualization(prediction) {
-      const visualization = document.getElementById('visualization');
+  const visualization = document.getElementById('visualization');
 
-      // Clear previous visualization
-      visualization.innerHTML = '';
+  // Clear previous visualization
+  visualization.innerHTML = '';
 
-      if (prediction === 0) {
-        // Display iceberg with survival odds
-        const iceberg = document.createElement('div');
-        iceberg.textContent = 'Iceberg - Low Survival Odds';
-        iceberg.classList.add('iceberg');
-        visualization.appendChild(iceberg);
-      } else {
-        // Display lifeboat with survival odds
-        const lifeboat = document.createElement('div');
-        lifeboat.textContent = 'Lifeboat - High Survival Odds';
-        lifeboat.classList.add('lifeboat');
-        visualization.appendChild(lifeboat);
-      }
-    }
+  if (prediction === 0) {
+    // Display iceberg with survival odds
+    const iceberg = document.createElement('div');
+    iceberg.textContent = 'Iceberg - Low Survival Odds';
+    iceberg.classList.add('iceberg');
+    visualization.appendChild(iceberg);
+  } else {
+    // Display lifeboat with survival odds
+    const lifeboat = document.createElement('div');
+    lifeboat.textContent = 'Lifeboat - High Survival Odds';
+    lifeboat.classList.add('lifeboat');
+    visualization.appendChild(lifeboat);
+  }
+}
 
 
 </script>
@@ -532,4 +563,6 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
 
     <button type="submit">Predict Survival</button>
   </form>
+
+  <div id="resultContainer"></div>
 </body>
