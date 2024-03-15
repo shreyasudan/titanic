@@ -120,11 +120,12 @@ Hovering over each circle reveals additional details, including passenger age, f
       // Get user input values
       const sex = document.getElementById('sex').value;
       const embarked = document.getElementById('embarked').value;
-      const pclass = document.getElementById('pclass').value;
+      const Pclass = parseInt(document.getElementById('Pclass').value);
+      // console.log(Pclass)
       
 
       // Call the classifier function to predict survival
-      classifier({ Sex: sex, Embarked: embarked, Pclass: pclass });
+      classifier({ Sex: sex, Embarked: embarked, Pclass: Pclass });
 
       // Update visualization based on the prediction
       // updateVisualization(prediction);
@@ -396,41 +397,23 @@ function classifier({ Sex, Embarked, Pclass }) {
   const totalPassengers = titanicData.length;
   const priorSurvived = survivedData.length / totalPassengers;
   const priorNotSurvived = notSurvivedData.length / totalPassengers;
+  // console.log(survivedData.filter(d => d.Sex === 'female').length / survivedData.length);
+  // console.log(survivedData.filter(d => d.Pclass === Pclass))
+  // console.log(Pclass);
 
-  // Calculate likelihoods for 'Sex', 'Embarked', and 'Pclass' features given each class
-  const likelihoods = {
-    survived: {
-      sex: {
-        
-      },
-      embarked: {},
-      pclass: {}
-    },
-    notSurvived: {
-      sex: {},
-      embarked: {},
-      pclass: {}
-    }
-  };
-
-  ['Sex', 'Embarked', 'Pclass'].forEach(feature => {
-
-    likelihoods.survived[feature] = {};
-    likelihoods.notSurvived[feature] = {};
-
-    // Calculate likelihoods for each category of the feature
-    const categories = Array.from(new Set(titanicData.map(d => d[feature])));
-    categories.forEach(category => {
-      likelihoods.survived[feature][category] = survivedData.filter(d => d[feature] === category).length / survivedData.length;
-      likelihoods.notSurvived[feature][category] = notSurvivedData.filter(d => d[feature] === category).length / notSurvivedData.length;
-    });
-  });
 
   // Implement function to predict class based on feature values
   function predictClass({ Sex, Embarked, Pclass }) {
-    const likelihoodSurvived = priorSurvived * likelihoods.survived.sex[Sex] * likelihoods.survived.embarked[Embarked] * likelihoods.survived.pclass[Pclass];
-    const likelihoodNotSurvived = priorNotSurvived * likelihoods.notSurvived.sex[Sex] * likelihoods.notSurvived.embarked[Embarked] * likelihoods.notSurvived.pclass[Pclass];
-    //console.log(likelihoodSurvived > likelihoodNotSurvived ? 1 : 0);
+    const likelihoodSurvived = priorSurvived * (survivedData.filter(d => d.Sex === Sex).length / survivedData.length) * (survivedData.filter(d => d.Embarked === Embarked).length / survivedData.length)  * (survivedData.filter(d => d.Pclass === Pclass).length / survivedData.length);
+    // console.log(survivedData.filter(d => d.Sex === Sex).length / survivedData.length);
+    // console.log(survivedData.filter(d => d.Embarked === Embarked).length / survivedData.length);
+    // console.log(survivedData.filter(d => d.Pclass === Pclass).length / survivedData.length)
+    // console.log(priorSurvived);
+
+    const likelihoodNotSurvived = priorNotSurvived * (notSurvivedData.filter(d => d.Sex === Sex).length / notSurvivedData.length) * (notSurvivedData.filter(d => d.Embarked === Embarked).length / notSurvivedData.length)  * (notSurvivedData.filter(d => d.Pclass === Pclass).length / notSurvivedData.length);
+    // console.log(likelihoodSurvived);
+    // console.log(likelihoodNotSurvived);
+
 
     //prediction = likelihoodSurvived > likelihoodNotSurvived ? 1 : 0
     if (likelihoodSurvived > likelihoodNotSurvived ) {
@@ -584,11 +567,11 @@ Titanic's maiden voyage.</p>
       <option value="Q">Queenstown</option>
     </select><br>
 
-    <label for="pclass">Passenger Class:</label>
-    <select id="pclass" name="pclass">
-      <option value="1">First Class</option>
-      <option value="2">Second Class</option>
-      <option value="3">Third Class</option>
+    <label for="Pclass">Passenger Class:</label>
+    <select id="Pclass" name="Pclass">
+      <option value=1>First Class</option>
+      <option value=2>Second Class</option>
+      <option value=3>Third Class</option>
     </select><br>
 
     <button type="submit">Predict Survival</button>
