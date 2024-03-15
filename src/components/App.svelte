@@ -531,6 +531,25 @@ we seek to honor the memory of those lost aboard the Titanic by shedding light o
     <img src="titanic.jpg" alt="Survived" />
 </div>
 
+<p> All Aboard the Titanic! </p>
+
+<p>Step aboard the Titanic, the grand vessel of dreams and tragedies. 
+Through our journey into the past, we've delved deep into the fabric of what determined fate on that fateful night. 
+At first glance, one might think that age and sex alone could paint a clear picture of survival against the odds. 
+The idea that merely being young or female might have guaranteed a ticket to safety is a tempting, albeit simplistic, notion.</p>
+
+<p>But as we've navigated through the icy waters of data, a more complex story has emerged.
+Beyond the surface of age and sex, a myriad of factors intertwined, with fare and class casting long shadows over the deck. 
+Of the 2,240 souls aboard, a mere 706 whispered tales of survival through the freezing Atlantic air. 
+This journey has taught us that in the shadow of disaster, survival was not a matter of simple equations.</p>
+
+<p>Therefore, to bring you closer to the heart of the Titanic's story, we've harnessed the power of the Naive Bayes Theorem,
+crafting a classifier that transcends mere numbers. This tool doesn't just calculate odds; it breathes life into the statistics, 
+offering a glimpse into the myriad destinies that converged aboard the Titanic. It's a testament to the human spirit,
+a reminder that behind every data point lies a heart, a story, a dream unfulfilled. By understanding the delicate dance of age, 
+fare, and sex, we embark on a journey not just of analysis but of empathy, connecting us across time to the souls who embarked on the 
+Titanic's maiden voyage.</p>
+
   <style>
     form {
       text-align: center; /* Center the form */
