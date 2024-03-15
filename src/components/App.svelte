@@ -37,6 +37,11 @@
     font-size: 17px;
     font-weight: strong;
   }
+  h7 {
+    text-align: center;
+    font-size: 17px;
+    font-weight: strong;
+  }
 
 
 
@@ -612,4 +617,14 @@ Titanic's maiden voyage.</p>
   </style>
 
   <div id="resultContainer"></div>
+<h7> Farewell and Takeaways </h7>
+<p> The Curse of the Titanic allows a unique user experience. 
+Our mission was to create a comprehensive exploratory outlook on the Titanic. 
+Over our project, we have gone over different candidates for feature selection in a more digestible method,
+motivated by an enticing question that imbues the curiosity of the user. </p>
+<p>
+Our final visualization depicts a classifier that allows you to enter your descriptive features to see if you would survive against all odds. 
+The Curse of the Titanic shows how visualizations allow for the abstraction of complex Machine Learning models for users that may not be familiar or concerned with Data Science. 
+It demonstrates the relationship between different features that may not have been obvious. 
+</p>
 </body>
