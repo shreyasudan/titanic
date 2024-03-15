@@ -442,12 +442,12 @@ function classifier({ Sex, Embarked, Pclass }) {
 
     //prediction = likelihoodSurvived > likelihoodNotSurvived ? 1 : 0
     if (likelihoodSurvived > likelihoodNotSurvived ) {
-      //return '<img src="lifeboat.jpg" alt="Survived" />';
-      return 'Survived'
+      return '<p>Survived</p><img src="lifeboat.jpg" alt="Survived" style="width: 700px; height: auto;"/>';
+      //return 'Survived'
     }
     else {
-      //return <img src="iceberg.jpg" alt="Did not Survive" />;
-      return 'Did not Survive'
+      return '<p>Did not Survive</p><img src="iceberg.png" alt="Did not Survive" style="width: 700px; height: auto;"/>';
+      //return 'Did not Survive'
     }
   }
 
@@ -455,11 +455,10 @@ function classifier({ Sex, Embarked, Pclass }) {
 
   // Update the DOM to display the likelihood value
   const resultContainer = document.getElementById('resultContainer');
-  resultContainer.innerText = `Survival Likelihood: ${predictClass({ Sex, Embarked, Pclass })}`;
+  resultContainer.innerHTML = likelihood;
+  //resultContainer.innerText = `Survival Likelihood: ${predictClass({ Sex, Embarked, Pclass })}`;
 
-  // Test the classifier function with some example feature values
-  //const prediction = predictClass({ Sex: 'female', Embarked:'Southampton' , Pclass: 3 });
-  //console.log('Predicted class:', prediction);
+  resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 
