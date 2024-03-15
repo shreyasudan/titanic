@@ -617,7 +617,7 @@ Titanic's maiden voyage.</p>
   </style>
 
   <div id="resultContainer"></div>
-<h7> Farewell and Takeaways </h7>
+<h7 style="text-align: center; font-size: 20px; font-weight: strong"> Farewell and Takeaways </h7>
 <p> The Curse of the Titanic allows a unique user experience. 
 Our mission was to create a comprehensive exploratory outlook on the Titanic. 
 Over our project, we have gone over different candidates for feature selection in a more digestible method,
